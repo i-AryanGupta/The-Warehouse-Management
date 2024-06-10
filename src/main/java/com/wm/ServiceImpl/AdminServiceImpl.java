@@ -63,4 +63,11 @@ public class AdminServiceImpl implements AdminService {
 						.setMessage("Super Admin Created"));
 	}
 
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(AdminRequest adminRequest) {
+		
+		
+		return null;
+	}
+
 }
