@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.wm.exception.MultipleSuperAdminException;
+import com.wm.exception.WarehouseNotFoundByIdException;
 
 @RestControllerAdvice
 public class ApplicationHandler {
@@ -24,5 +25,13 @@ public class ApplicationHandler {
 	{
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Super Admin already exist");
 	}
+	
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleWarehouseNotFoundByIdException(WarehouseNotFoundByIdException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Warehouse not present");
+	}
+	
 
 }
