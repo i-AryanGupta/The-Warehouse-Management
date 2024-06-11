@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -17,6 +19,7 @@ import com.wm.Service.AdminService;
 import com.wm.entity.Admin;
 import com.wm.enums.AdminType;
 import com.wm.enums.Privilege;
+import com.wm.exception.AdminNotMatchException;
 import com.wm.exception.MultipleSuperAdminException;
 import com.wm.exception.WarehouseNotFoundByIdException;
 import com.wm.mapper.AdminMapper;
@@ -80,6 +83,49 @@ public class AdminServiceImpl implements AdminService {
 							.setMessage("Admin Created"));
 
 		}).orElseThrow(()-> new WarehouseNotFoundByIdException("Warehouse not found"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdmin(AdminRequest adminRequest) {
+		
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return adminRepository.findByEmail(email).map(admin ->{
+        	
+        	admin = adminMapper.mapAdminRequestToAdmin(adminRequest, admin);
+        	
+        	
+        	admin = adminRepository.save(admin);
+        	
+        	
+              return ResponseEntity.status(HttpStatus.OK)
+      				.body(new ResponseStructure<AdminResponse>()
+      						.setData(adminMapper.mapAdminResponseToAdmin(admin))
+      						.setStatus(HttpStatus.OK.value())
+      						.setMessage("Admin Updated"));
+              
+        }).orElseThrow(() -> new AdminNotMatchException("Admin not found"));
+
+       
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(AdminRequest adminRequest,
+			int adminId) {
+		
+		return adminRepository.findById(adminId).map(admin-> {
+			
+			admin = adminMapper.mapAdminRequestToAdmin(adminRequest, admin);
+			admin = adminRepository.save(admin);
+			
+			AdminResponse response = adminMapper.mapAdminResponseToAdmin(admin);
+			
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<AdminResponse>()
+							.setData(response)
+							.setMessage("Admin updated")
+							.setStatus(adminId));
+		}).orElseThrow(() -> new AdminNotMatchException("Admin not Found"));
+
 	}
 
 
