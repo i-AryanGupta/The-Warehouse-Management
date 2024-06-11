@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wm.Service.WareHouseService;
@@ -15,6 +18,7 @@ import com.wm.responsedto.WareHouseResponse;
 import com.wm.utility.ResponseStructure;
 
 @RestController
+@RequestMapping("/api/version1")
 public class WareHouseController {
 	
 	@Autowired
@@ -26,7 +30,13 @@ public class WareHouseController {
 	{
 		return wareHouseService.createWareHouse(wareHouseRequest);
 
-		
+	}
+	
+	@PreAuthorize("hasAuthority('UPDATE_WAREHOUSE')")
+	@PutMapping("/warehouses/{warehouseId}")
+	ResponseEntity<ResponseStructure<WareHouseResponse>> updateWareHouse(@RequestBody WareHouseRequest wareHouseRequest, @PathVariable int warehouseId)
+	{
+		return wareHouseService.updateWareHouse(wareHouseRequest, warehouseId);
 	}
 	
 

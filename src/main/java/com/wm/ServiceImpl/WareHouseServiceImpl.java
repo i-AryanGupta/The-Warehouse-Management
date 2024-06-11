@@ -12,6 +12,7 @@ import com.wm.Repository.WareHouseRepository;
 import com.wm.Service.WareHouseService;
 import com.wm.entity.WareHouse;
 
+import com.wm.exception.WarehouseNotFoundByIdException;
 import com.wm.mapper.WarehouseMapper;
 import com.wm.requestdto.WareHouseRequest;
 import com.wm.responsedto.WareHouseResponse;
@@ -40,6 +41,27 @@ public class WareHouseServiceImpl implements WareHouseService{
 						.setMessage("Created")
 						.setStatus(HttpStatus.CREATED.value()));
 		
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<WareHouseResponse>> updateWareHouse(WareHouseRequest wareHouseRequest,
+			int warehouseId) {
+		
+		 return wareHouseRepository.findById(warehouseId).map(warehouse ->{
+		 
+				 warehouse = warehouseMapper.mapRequestToWarehouse(wareHouseRequest, warehouse);
+		 
+		 			warehouse = wareHouseRepository.save(warehouse);
+		 			
+		 			WareHouseResponse response = warehouseMapper.mapResponseToWarehouse(warehouse);
+		 			return ResponseEntity.status(HttpStatus.OK)
+		 					.body( new ResponseStructure<WareHouseResponse>()
+		 							.setData(response)
+		 							.setMessage("Updated warehouse")
+		 							.setStatus(HttpStatus.OK.value()));
+		 }).orElseThrow(() -> new WarehouseNotFoundByIdException("Warehouse not found so not able to update"));
+		 			
+	
 	}
 
 	
