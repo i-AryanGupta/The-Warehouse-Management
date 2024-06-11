@@ -16,11 +16,11 @@ public class AdminMapper {
 	private PasswordEncoder passwordEncoder;
 
 	public Admin mapAdminRequestToAdmin(AdminRequest adminRequest, Admin admin) {
-		return Admin.builder()
-		.name(adminRequest.getName())
-		.email(adminRequest.getEmail())
-		.password(passwordEncoder.encode(adminRequest.getPassword()))
-		.build();	
+		admin.setName(adminRequest.getName());
+		admin.setEmail(adminRequest.getEmail());
+		admin.setPassword(passwordEncoder.encode(adminRequest.getPassword()));
+		
+		return admin;
 	}
 	
 	public AdminResponse mapAdminResponseToAdmin(Admin admin)

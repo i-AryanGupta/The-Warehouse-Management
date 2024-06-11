@@ -2,6 +2,7 @@ package com.wm.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +20,11 @@ public class WareHouseController {
 	@Autowired
 	private WareHouseService wareHouseService;
 	
-	@GetMapping("/warehouses")
-	public String createWareHouse()
+	@PreAuthorize("hasAuthority('CREATE_WAREHOUSE')")
+	@PostMapping("/warehouses")
+	ResponseEntity<ResponseStructure<WareHouseResponse>> createWareHouse(@RequestBody WareHouseRequest wareHouseRequest)
 	{
-		return "warehouse found";
+		return wareHouseService.createWareHouse(wareHouseRequest);
 
 		
 	}
