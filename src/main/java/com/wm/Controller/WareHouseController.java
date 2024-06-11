@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wm.Service.WareHouseService;
 import com.wm.requestdto.WareHouseRequest;
-import com.wm.responsedto.AdminResponse;
+
 import com.wm.responsedto.WareHouseResponse;
 import com.wm.utility.ResponseStructure;
 
@@ -37,6 +37,12 @@ public class WareHouseController {
 	ResponseEntity<ResponseStructure<WareHouseResponse>> updateWareHouse(@RequestBody WareHouseRequest wareHouseRequest, @PathVariable int warehouseId)
 	{
 		return wareHouseService.updateWareHouse(wareHouseRequest, warehouseId);
+	}
+	
+	@GetMapping("/warehouses/{warehouseId}")
+	ResponseEntity<ResponseStructure<WareHouseResponse>> findWarehouse(@PathVariable int warehouseId)
+	{
+		return wareHouseService.findWarehouse(warehouseId);
 	}
 	
 
