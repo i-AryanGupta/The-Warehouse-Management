@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.wm.exception.AddressNotFoundException;
 import com.wm.exception.AdminNotMatchException;
 import com.wm.exception.MultipleSuperAdminException;
 import com.wm.exception.WarehouseNotFoundByIdException;
@@ -38,6 +39,12 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure<String>> handleAdminNotMatchException(AdminNotMatchException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Admin not Found");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleAddressNotFoundException(AddressNotFoundException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Address not Found");
 	}
 	
 

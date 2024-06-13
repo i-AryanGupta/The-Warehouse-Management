@@ -49,7 +49,7 @@ public class AdminController {
 		
 	}
 	
-	@PreAuthorize("hasAuthority('UPDATE_ADMIN')")
+	@PreAuthorize("hasAuthority('UPDATE_ADMIN') && hasAuthority('CREATE_ADMIN')")
 	@PutMapping("/admins/{adminId}")
 	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(@RequestBody AdminRequest adminRequest, @PathVariable int adminId)
 	{
