@@ -1,5 +1,7 @@
 package com.wm.Service;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -19,5 +21,12 @@ public interface AdminService {
 
 
 	ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(AdminRequest adminRequest, int adminId);
+
+
+	ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId);
+
+
+	ResponseEntity<ResponseStructure<List<AdminResponse>>> findAllAdmins();
+	
 
 }

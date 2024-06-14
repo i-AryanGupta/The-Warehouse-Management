@@ -1,5 +1,7 @@
 package com.wm.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wm.Service.WareHouseService;
 import com.wm.requestdto.WareHouseRequest;
-import com.wm.responsedto.AdminResponse;
+
 import com.wm.responsedto.WareHouseResponse;
 import com.wm.utility.ResponseStructure;
 
@@ -37,6 +39,25 @@ public class WareHouseController {
 	ResponseEntity<ResponseStructure<WareHouseResponse>> updateWareHouse(@RequestBody WareHouseRequest wareHouseRequest, @PathVariable int warehouseId)
 	{
 		return wareHouseService.updateWareHouse(wareHouseRequest, warehouseId);
+	}
+	
+	@GetMapping("/warehouses/{warehouseId}")
+	ResponseEntity<ResponseStructure<WareHouseResponse>> findWarehouse(@PathVariable int warehouseId)
+	{
+		return wareHouseService.findWarehouse(warehouseId);
+	}
+	
+	@GetMapping("/warehouses")
+	ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findAllWarehouse()
+	{
+		return wareHouseService.findAllWarehouse();
+	}
+	
+	
+	@GetMapping("/cities/{city}/warehouses")
+	ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCity(@PathVariable String city)
+	{
+		return wareHouseService.findWarehousesByCity(city);
 	}
 	
 
