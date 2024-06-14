@@ -14,4 +14,6 @@ public interface StorageService {
 	ResponseEntity<SimpleResponse<String>> addStorage(StorageRequest storageRequest, int noOfStorageUnits,
 			int warehouseId);
 
+	ResponseEntity<ResponseStructure<StorageResponse>> updateStorage(StorageRequest storageRequest, int storageId);
+
 }

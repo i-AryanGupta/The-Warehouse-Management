@@ -29,6 +29,6 @@ public class StorageRequest {
 	@NotEmpty(message = "capacityInKg is required")
 	private double capacityInKg;
 	
-
+	@NotEmpty(message = "MaterialTypes is required")
 	private List<MaterialTypes> materialTypes;
 }

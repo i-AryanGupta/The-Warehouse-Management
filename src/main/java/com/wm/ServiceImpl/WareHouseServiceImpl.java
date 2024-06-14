@@ -2,6 +2,8 @@ package com.wm.ServiceImpl;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -77,6 +79,18 @@ public class WareHouseServiceImpl implements WareHouseService{
 							.setStatus(HttpStatus.FOUND.value()));
 		}).orElseThrow(()-> new WarehouseNotFoundByIdException("Warehouse not Found"));
 		
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findAllWarehouse() {
+		List<WareHouseResponse> warehouses = wareHouseRepository.findAll().stream().map(warehouse ->
+		warehouseMapper.mapResponseToWarehouse(warehouse)).toList();
+		
+		return ResponseEntity.status(HttpStatus.FOUND)
+				.body(new ResponseStructure<List<WareHouseResponse>>()
+						.setData(warehouses)
+						.setStatus(HttpStatus.FOUND.value())
+						.setMessage("Warehouses Details Found"));
 	}
 
 	

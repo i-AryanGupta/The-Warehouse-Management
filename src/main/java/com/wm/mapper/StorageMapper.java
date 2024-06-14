@@ -26,6 +26,7 @@ public class StorageMapper {
 	public StorageResponse mapStorageResponseToStorage(Storage storage)
 	{
 		return StorageResponse.builder()
+				.storageId(storage.getStorageId())
 				.blockName(storage.getBlockName())
 				.section(storage.getSection())
 				.capacityInKg(storage.getCapacityInKg())

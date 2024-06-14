@@ -12,6 +12,7 @@ import com.wm.Repository.StorageRepository;
 import com.wm.Repository.WareHouseRepository;
 import com.wm.Service.StorageService;
 import com.wm.entity.Storage;
+import com.wm.exception.StorageNotFoundException;
 import com.wm.exception.WarehouseNotFoundByIdException;
 import com.wm.mapper.StorageMapper;
 import com.wm.requestdto.StorageRequest;
@@ -63,6 +64,23 @@ public class StorageServiceImpl implements StorageService{
 		}).orElseThrow(() -> new WarehouseNotFoundByIdException("Warehouse Not Found"));
 		
 
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<StorageResponse>> updateStorage(StorageRequest storageRequest,
+			int storageId) {
+		
+		return storageRepository.findById(storageId).map(storage ->{
+			storage =storageMapper.mapStorageRequestToStorage(storageRequest, storage);
+			
+			storageRepository.save(storage);
+			
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<StorageResponse>()
+							.setMessage("Updated the storage")
+							.setData(storageMapper.mapStorageResponseToStorage(storage))
+							.setStatus(HttpStatus.OK.value()));
+		}).orElseThrow(() -> new StorageNotFoundException("Storage not Found"));
 	}
 
 }
