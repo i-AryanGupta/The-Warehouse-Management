@@ -12,6 +12,7 @@ public class AddressMapper {
 	public Address mapAddressRequestToAddress(AddressRequest addressRequest, Address address)
 	{
 		address.setAddressLine(addressRequest.getAddressLine());
+		address.setCity(addressRequest.getCity());
 		address.setState(addressRequest.getState());
 		address.setCountry(addressRequest.getCountry());
 		address.setPincode(addressRequest.getPincode());
@@ -26,6 +27,7 @@ public class AddressMapper {
 		return AddressResponse.builder()
 				.addressId(address.getAddressId())
 				.addressLine(address.getAddressLine())
+				.city(address.getCity())
 				.country(address.getCountry())
 				.state(address.getState())
 				.pincode(address.getPincode())

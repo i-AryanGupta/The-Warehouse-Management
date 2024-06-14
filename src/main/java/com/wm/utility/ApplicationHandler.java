@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.wm.exception.AddressNotFoundException;
 import com.wm.exception.AdminNotMatchException;
+import com.wm.exception.WarehouseInCityNotFoundException;
 import com.wm.exception.MultipleSuperAdminException;
 import com.wm.exception.StorageNotFoundException;
 import com.wm.exception.WarehouseNotFoundByIdException;
@@ -52,6 +53,12 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure<String>> handleStorageNotFoundException( StorageNotFoundException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Storage not found");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleWarehouseInCityNotFoundException(WarehouseInCityNotFoundException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Warehouse not Found in city");
 	}
 	
 

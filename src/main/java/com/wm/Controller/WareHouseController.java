@@ -53,5 +53,12 @@ public class WareHouseController {
 		return wareHouseService.findAllWarehouse();
 	}
 	
+	
+	@GetMapping("/cities/{city}/warehouses")
+	ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCity(@PathVariable String city)
+	{
+		return wareHouseService.findWarehousesByCity(city);
+	}
+	
 
 }

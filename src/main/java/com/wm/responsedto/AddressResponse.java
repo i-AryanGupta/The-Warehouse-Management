@@ -16,6 +16,7 @@ public class AddressResponse {
 	
 	private int addressId;
 	private String addressLine;
+	private String city;
 	private String state;
 	private String country;
 	private int pincode;

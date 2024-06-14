@@ -15,6 +15,9 @@ public class AddressRequest {
 	@NotEmpty(message = "AddressLine is required")
 	private String addressLine;
 	
+	@NotEmpty(message = "City is required")
+	private String city;
+	
 	@NotEmpty(message = "State is required")
 	private String state;
 	

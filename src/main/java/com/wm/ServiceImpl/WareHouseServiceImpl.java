@@ -9,14 +9,15 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 
-
+import com.wm.Repository.AddressRepository;
 import com.wm.Repository.WareHouseRepository;
 import com.wm.Service.WareHouseService;
 import com.wm.entity.WareHouse;
-
+import com.wm.exception.WarehouseInCityNotFoundException;
 import com.wm.exception.WarehouseNotFoundByIdException;
 import com.wm.mapper.WarehouseMapper;
 import com.wm.requestdto.WareHouseRequest;
+
 import com.wm.responsedto.WareHouseResponse;
 import com.wm.utility.ResponseStructure;
 
@@ -29,10 +30,16 @@ public class WareHouseServiceImpl implements WareHouseService{
 	@Autowired
 	private WarehouseMapper warehouseMapper;
 	
+	@Autowired
+	private AddressRepository addressRepository;
+	
+
+	
 	@Override
 	public ResponseEntity<ResponseStructure<WareHouseResponse>> createWareHouse(WareHouseRequest wareHouseRequest) {
 		
 		WareHouse warehouse = warehouseMapper.mapRequestToWarehouse(wareHouseRequest, new WareHouse());
+		warehouse.setTotalCapacityInKg(0);
 		warehouse = wareHouseRepository.save(warehouse);
 		
 		WareHouseResponse warehouseResponse = warehouseMapper.mapResponseToWarehouse(warehouse);
@@ -91,6 +98,25 @@ public class WareHouseServiceImpl implements WareHouseService{
 						.setData(warehouses)
 						.setStatus(HttpStatus.FOUND.value())
 						.setMessage("Warehouses Details Found"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCity(String city) {
+	
+		List<WareHouseResponse> cities = addressRepository.findAllByCity(city).stream().map(address -> 
+		warehouseMapper.mapResponseToWarehouse(address.getWarehouse(), address)).toList();
+		
+		if(cities.isEmpty())
+		{
+			throw new WarehouseInCityNotFoundException("City is not Found");
+		}
+			
+		
+		return ResponseEntity.status(HttpStatus.FOUND)
+				.body(new ResponseStructure<List<WareHouseResponse>>()
+						.setData(cities)
+						.setMessage("Found All Similar Cities")
+						.setStatus(HttpStatus.FOUND.value()));
 	}
 
 	
