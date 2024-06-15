@@ -3,8 +3,10 @@ package com.wm.Controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wm.Repository.StorageRepository;
 import com.wm.Service.StorageService;
+import com.wm.entity.Storage;
 import com.wm.requestdto.StorageRequest;
 import com.wm.responsedto.StorageResponse;
 import com.wm.utility.ResponseStructure;
@@ -25,6 +29,7 @@ public class StorageController {
 	
 	@Autowired
 	private StorageService storageService;
+	
 	
 	@PreAuthorize("hasAuthority('CREATE_STORAGE')")
 	@PostMapping("/warehouses/{warehouseId}/storages")
@@ -39,5 +44,7 @@ public class StorageController {
 	{
 		return storageService.updateStorage(storageRequest, storageId);
 	}
+	
+	
 
 }
