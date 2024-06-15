@@ -6,4 +6,6 @@ import com.wm.entity.Storage;
 
 public interface StorageRepository extends JpaRepository<Storage, Integer>{
 
+	
+	
 }
