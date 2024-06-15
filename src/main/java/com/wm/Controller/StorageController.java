@@ -2,6 +2,8 @@ package com.wm.Controller;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,9 @@ public class StorageController {
 	@Autowired
 	private StorageService storageService;
 	
+	@Autowired
+	private StorageRepository storageRepository;
+	
 	
 	@PreAuthorize("hasAuthority('CREATE_STORAGE')")
 	@PostMapping("/warehouses/{warehouseId}/storages")
@@ -44,6 +49,33 @@ public class StorageController {
 	{
 		return storageService.updateStorage(storageRequest, storageId);
 	}
+	
+	@GetMapping("/storages")
+	public ResponseEntity<ResponseStructure<Storage>> firstStorage( Double capacityInKg, Double lengthInMeters,  Double breadthInMeters, Double heightInMeters)
+	{
+		 Storage storage = storageRepository.findFirstByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(100.0,10.0,5.0,10.0);
+		 
+		 return ResponseEntity.status(HttpStatus.FOUND)
+				 .body(new ResponseStructure<Storage>()
+						 .setData(storage)
+						 .setMessage("Storage Types Found Successfully")
+						 .setStatus(HttpStatus.FOUND.value()));
+	}
+	
+	@GetMapping("/getStorages")
+	public ResponseEntity<ResponseStructure<List<Storage>>> storageTypes(Double capacityInKg, Double lengthInMeters,  Double breadthInMeters, Double heightInMeters)
+	{
+		
+		 List<Storage> storage = storageRepository.findAllFirstByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(100.0,10.0,5.0,10.0);
+		 
+		 return ResponseEntity.status(HttpStatus.FOUND)
+				 .body(new ResponseStructure<List<Storage>>()
+						 .setData(storage)
+						 .setMessage("Storage Types Found Successfully")
+						 .setStatus(HttpStatus.FOUND.value()));
+	}
+		
+	
 	
 	
 
