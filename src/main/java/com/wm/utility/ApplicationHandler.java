@@ -11,6 +11,7 @@ import com.wm.exception.ClientNotFoundException;
 import com.wm.exception.WarehouseInCityNotFoundException;
 import com.wm.exception.MultipleSuperAdminException;
 import com.wm.exception.StorageNotFoundException;
+import com.wm.exception.StorageTypeNotFound;
 import com.wm.exception.WarehouseNotFoundByIdException;
 
 @RestControllerAdvice
@@ -66,6 +67,12 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure<String>> handleClientNotFoundException(ClientNotFoundException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Client not Found");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleStorageTypeNotFound(StorageTypeNotFound ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Storage Type is not Found");
 	}
 	
 

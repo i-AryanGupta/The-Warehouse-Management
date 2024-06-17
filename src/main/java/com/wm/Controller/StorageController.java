@@ -19,6 +19,7 @@ import com.wm.Repository.StorageRepository;
 import com.wm.Service.StorageService;
 import com.wm.entity.Storage;
 import com.wm.requestdto.StorageRequest;
+import com.wm.requestdto.StorageTypeRequest;
 import com.wm.responsedto.StorageResponse;
 import com.wm.utility.ResponseStructure;
 import com.wm.utility.SimpleResponse;
@@ -32,10 +33,10 @@ public class StorageController {
 	
 	
 	@PreAuthorize("hasAuthority('CREATE_STORAGE')")
-	@PostMapping("/warehouses/{warehouseId}/storages")
-	public ResponseEntity<SimpleResponse<String>> addStorage(@RequestBody StorageRequest storageRequest, @RequestParam("no_of_storage_units") int noOfStorageUnits, @PathVariable int warehouseId)
+	@PostMapping("/warehouses/{warehouseId}/storageTypes/{storageTypeId}/storages")
+	public ResponseEntity<SimpleResponse<String>> addStorage(@RequestBody StorageRequest storageRequest,@RequestParam("no_of_storage_units") int noOfStorageUnits, @PathVariable int warehouseId, @PathVariable int storageTypeId)
 	{
-		return storageService.addStorage(storageRequest, noOfStorageUnits, warehouseId);
+		return storageService.addStorage(storageRequest, noOfStorageUnits, warehouseId, storageTypeId);
 	}
 	
 	@PreAuthorize("hasAuthority('UPDATE_STORAGE')")
