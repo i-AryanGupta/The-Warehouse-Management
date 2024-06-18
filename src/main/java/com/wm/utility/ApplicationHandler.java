@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.wm.exception.AddressNotFoundException;
 import com.wm.exception.AdminNotMatchException;
+import com.wm.exception.ApiKeyORUsernameNotFoundException;
 import com.wm.exception.ClientNotFoundException;
+import com.wm.exception.IllegalOperationException;
 import com.wm.exception.WarehouseInCityNotFoundException;
 import com.wm.exception.MultipleSuperAdminException;
 import com.wm.exception.StorageNotFoundException;
@@ -75,5 +77,17 @@ public class ApplicationHandler {
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Storage Type is not Found");
 	}
 	
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleApiKeyORUsernameNotFoundException(ApiKeyORUsernameNotFoundException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Api or Username not found");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleIllegalOperationException(IllegalOperationException ex)
+	{
+		return errorResponse(HttpStatus.FORBIDDEN, ex.getMessage(), "Illegal operation performed");
+	}
 
 }
