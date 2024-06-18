@@ -55,7 +55,13 @@ public class WareHouseController {
 	
 	
 	@GetMapping("/cities/{city}/warehouses")
-	ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCity(@PathVariable String city)
+	ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCityAdmin(@PathVariable String city)
+	{
+		return wareHouseService.findWarehousesByCity(city);
+	}
+	
+	@GetMapping("clients/cities/{city}/warehouses")
+	ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCityClient(@PathVariable String city)
 	{
 		return wareHouseService.findWarehousesByCity(city);
 	}

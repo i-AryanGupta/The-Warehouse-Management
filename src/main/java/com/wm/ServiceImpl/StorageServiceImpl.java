@@ -7,15 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.wm.Repository.StorageRepository;
+import com.wm.Repository.StorageTypeRepository;
 import com.wm.Repository.WareHouseRepository;
 import com.wm.Service.StorageService;
 import com.wm.entity.Storage;
+import com.wm.entity.StorageType;
 import com.wm.exception.StorageNotFoundException;
+import com.wm.exception.StorageTypeNotFound;
 import com.wm.exception.WarehouseNotFoundByIdException;
 import com.wm.mapper.StorageMapper;
 import com.wm.requestdto.StorageRequest;
+import com.wm.requestdto.StorageTypeRequest;
 import com.wm.responsedto.StorageResponse;
 import com.wm.utility.ResponseStructure;
 import com.wm.utility.SimpleResponse;
@@ -31,22 +36,30 @@ public class StorageServiceImpl implements StorageService{
 	
 	@Autowired
 	private StorageMapper storageMapper;
+	
+	@Autowired
+	private StorageTypeRepository storageTypeRepository;
 
 	@Override
 	public ResponseEntity<SimpleResponse<String>> addStorage(StorageRequest storageRequest,
-			int noOfStorageUnits, int warehouseId) {
+			int noOfStorageUnits, int warehouseId, int storageTypeId) {
 		
 		
 		return warehouseRepository.findById(warehouseId).map(warehouse ->{
 			List<Storage> storages = new ArrayList<Storage>();
 			
+			StorageType storageType = storageTypeRepository.findById(storageTypeId).orElseThrow(() -> new StorageTypeNotFound("Storage Type is not Found"));
+			
+			storageType.setUnitsAvailable(storageType.getUnitsAvailable() + noOfStorageUnits);
 			int storageUnits=noOfStorageUnits;
+			
 			
 			while(storageUnits>0)
 			{
 			Storage storage = storageMapper.mapStorageRequestToStorage(storageRequest, new Storage());
-			storage.setAvailableArea(storageRequest.getLengthInMeters()* storageRequest.getBreadthInMeters()*storageRequest.getHeightInMeters());
-			storage.setMaxAdditionalInKg(storageRequest.getCapacityInKg());
+
+			storage.setStorageType(storageType);
+			storage.setMaxAdditionalInKg(storageType.getCapacityInKg());
 			storage.setWarehouse(warehouse);
 			storages.add(storage);
 			

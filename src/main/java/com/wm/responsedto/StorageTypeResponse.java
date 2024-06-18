@@ -1,9 +1,5 @@
 package com.wm.responsedto;
 
-import java.util.List;
-
-import com.wm.enums.MaterialTypes;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,11 +11,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StorageResponse {
-
-	private int storageId;
-	private String blockName;
-	private String section;
+public class StorageTypeResponse {
 	
-	private List<MaterialTypes> materialTypes;
+	private int storageTypeId;
+	private double lengthInMeters;
+	private double breadthInMeters;
+	private double heightInMeters;
+	private double capacityInKg;
+	private int unitsAvailable;
+
 }

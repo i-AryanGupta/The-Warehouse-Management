@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,10 +31,6 @@ public class Storage {
 	private int storageId;
 	private String blockName;
 	private String section;
-	private double lengthInMeters;
-	private double breadthInMeters;
-	private double heightInMeters;
-	private double capacityInKg;
 	private double maxAdditionalInKg;
 	private double availableArea;
 	
@@ -42,4 +39,7 @@ public class Storage {
 	
 	@ManyToOne
 	private WareHouse warehouse;
+	
+	@ManyToOne
+	private StorageType storageType;
 }

@@ -20,15 +20,9 @@ public class StorageRequest {
 	private String blockName;
 	@NotEmpty(message = "section is required")
 	private String section;
-	@NotEmpty(message = "lengthInMt is required")
-	private double lengthInMeters;
-	@NotEmpty(message = "breadthInMt is required")
-	private double breadthInMeters;
-	@NotEmpty(message = "heightInMt is required")
-	private double heightInMeters;
-	@NotEmpty(message = "capacityInKg is required")
-	private double capacityInKg;
+
 	
 	@NotEmpty(message = "MaterialTypes is required")
 	private List<MaterialTypes> materialTypes;
+
 }
