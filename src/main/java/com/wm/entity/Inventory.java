@@ -1,8 +1,7 @@
 package com.wm.entity;
 
+import java.time.LocalDate;
 import java.util.List;
-
-import org.hibernate.annotations.ManyToAny;
 
 import com.wm.enums.MaterialTypes;
 
@@ -14,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,28 +21,30 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Storage {
+@NoArgsConstructor
+public class Inventory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int storageId;
-	private String blockName;
-	private String section;
-	private double maxAdditionalInKg;
-	private double availableArea;
-	private int sellerId;
+	private int productId;
+	private String productTitle;
+	private double lengthInMeters;
+	private double breadthInMeters;
+	private double heightInMeters;
+	private double weightInKg;
+	private int quantity;
 	
 	@Enumerated(EnumType.STRING)
 	private List<MaterialTypes> materialTypes;
 	
-	@ManyToOne
-	private WareHouse warehouse;
+	private LocalDate restockedAt;
+	
+	private int sellerId;
+	
+	@ManyToMany (mappedBy = "inventories")
+	private List<Storage> storages; 
 	
 	@ManyToOne
-	private StorageType storageType;
-	
-	@ManyToMany
-	private List<Inventory>inventories;
+	private Client client;
 }
